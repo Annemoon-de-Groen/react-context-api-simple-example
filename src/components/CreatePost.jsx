@@ -8,11 +8,14 @@ const INITIAL_POST = {
 }
 
 export default function CreatePost() {
-    const [post, setPost] = useState(INITIAL_POST)
+    const [post, setPost] = useState({title: localStorage.getItem('title') ? localStorage.getItem('title'): INITIAL_POST.title,
+                                      content: localStorage.getItem('content') ? localStorage.getItem('content') : INITIAL_POST.content})
     const {posts, setPosts} = useContext(PostContext)
+
 
     const handleChange = (e) => {
         const { name, value } = e.target
+        localStorage.setItem([name], value)
         setPost({
           ...post,
           [name]: value,
@@ -23,6 +26,7 @@ export default function CreatePost() {
         e.preventDefault()
         setPosts([...posts, post])
         setPost(INITIAL_POST)
+        localStorage.clear()
     }
 
     return (
